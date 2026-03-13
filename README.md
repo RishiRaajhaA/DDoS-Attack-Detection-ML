@@ -1,45 +1,81 @@
-# DDoS Attack Detection using PCA and Machine Learning
+# DDoS Attack Detection using Supervised Machine Learning
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Scikit--Learn-orange)
 ![Cybersecurity](https://img.shields.io/badge/Domain-Cybersecurity-red)
-![License](https://img.shields.io/badge/License-Academic-green)
+![Status](https://img.shields.io/badge/Project-Academic-green)
 
 ---
 
-## Project Overview
+# Project Overview
 
-Distributed Denial-of-Service (**DDoS**) attacks are one of the most serious cybersecurity threats. These attacks overwhelm network resources, causing service disruptions and system downtime.
+Distributed Denial-of-Service (**DDoS**) attacks are among the most serious threats to modern network infrastructures. These attacks flood a target server with massive traffic from multiple compromised systems, making services unavailable to legitimate users.
 
-This project implements a **machine learning-based DDoS detection system** using:
+This project proposes a **PCA-Based Enhanced Distributed DDoS Attack Detection (EDAD) framework** that uses **supervised machine learning algorithms** to identify malicious network traffic.
 
-- Exploratory Data Analysis (EDA)
-- Data preprocessing and cleaning
-- Feature scaling
-- Handling class imbalance with **SMOTE**
-- Dimensionality reduction using **PCA**
-- Training multiple **machine learning models**
-- Model explainability using **SHAP**
-
-The system is evaluated on three widely used cybersecurity datasets:
-
-- **CICIDS2017**
-- **CICIDS2018**
-- **CICDDoS2019**
+The system analyzes network flow features and classifies traffic as **benign or attack traffic** using multiple machine learning models.
 
 ---
 
-# Repository Structure
+# Research Objective
 
-```
-ddos-detection-pca/
-│
-├── ddos_pca_edad2017.ipynb
-├── ddos_pca_edad2018.ipynb
-├── ddos_pca_edad2019.ipynb
-│
-└── README.md
-```
+The objective of this project is to:
+
+- Detect **DDoS attacks in network traffic**
+- Compare the performance of different **supervised ML algorithms**
+- Improve detection accuracy using **feature selection and preprocessing**
+- Apply **model interpretability techniques (SHAP)**
+
+---
+
+# Datasets Used
+
+This project uses publicly available datasets from the **Canadian Institute for Cybersecurity (CIC)**.
+
+### 1️⃣ CICIDS2017
+Contains realistic network traffic with multiple cyber attack types.
+
+Attack examples:
+- DDoS
+- DoS
+- Brute Force
+- Web attacks
+- Port scanning
+
+Dataset link  
+https://www.unb.ca/cic/datasets/ids-2017.html
+
+---
+
+### 2️⃣ CICIDS2018
+
+An updated dataset with more modern attack scenarios.
+
+Includes:
+- Botnet attacks
+- DDoS attacks
+- Web attacks
+- Brute-force attacks
+
+Dataset link  
+https://www.unb.ca/cic/datasets/ids-2018.html
+
+---
+
+### 3️⃣ CICDDoS2019
+
+A dataset designed specifically for **DDoS detection**.
+
+Includes attack types such as:
+
+- SYN Flood
+- UDP Flood
+- DNS Amplification
+- LDAP Attack
+- NTP Amplification
+
+Dataset link  
+https://www.unb.ca/cic/datasets/ddos-2019.html
 
 ---
 
@@ -49,21 +85,25 @@ ddos-detection-pca/
 Network Traffic Dataset
         │
         ▼
-Data Cleaning & Preprocessing
+Data Preprocessing
+(Remove duplicates, missing values)
+        │
+        ▼
+Label Encoding
         │
         ▼
 Feature Scaling (StandardScaler)
         │
         ▼
-Class Imbalance Handling (SMOTE)
+Handling Class Imbalance (SMOTE)
         │
         ▼
-Dimensionality Reduction (PCA)
+Feature Selection (PCA)
         │
         ▼
 Machine Learning Models
-│       │        │       │
-DT     RF       SVM     KNN
+│      │       │      │       │
+RF     LR      KNN    SVM     DT
         │
         ▼
 Model Evaluation
@@ -74,128 +114,60 @@ Explainability (SHAP)
 
 ---
 
-# Datasets
+# Data Preprocessing
 
-This project uses publicly available cybersecurity datasets from the **Canadian Institute for Cybersecurity**.
+Several preprocessing techniques were applied to improve dataset quality:
 
----
+- Removing **missing values**
+- Removing **duplicate records**
+- Handling **infinite values**
+- Data normalization using **StandardScaler**
+- **Label encoding** for categorical classes
 
-## CICIDS2017
-
-A modern intrusion detection dataset containing realistic network traffic.
-
-Attack types include:
-
-- DDoS
-- DoS
-- Brute Force
-- Web Attacks
-- Port Scanning
-
-Dataset link:  
-https://www.unb.ca/cic/datasets/ids-2017.html
+The original **79 features were reduced to 61 useful features** after preprocessing.
 
 ---
 
-## CICIDS2018
+# Handling Class Imbalance
 
-An improved dataset containing updated attack simulations.
+Cybersecurity datasets are often **imbalanced**, where benign traffic dominates attack samples.
 
-Attack types include:
+To address this issue:
 
-- Botnet attacks
-- DDoS attacks
-- Brute force attacks
-- Web attacks
-
-Dataset link:  
-https://www.unb.ca/cic/datasets/ids-2018.html
+**SMOTE (Synthetic Minority Oversampling Technique)** was applied to generate synthetic attack samples and balance the dataset.
 
 ---
 
-## CICDDoS2019
+# Feature Selection
 
-A dataset specifically designed for **DDoS detection**.
-
-Attack types include:
-
-- SYN Flood
-- UDP Flood
-- DNS Amplification
-- LDAP Attack
-- NTP Amplification
-
-Dataset link:  
-https://www.unb.ca/cic/datasets/ddos-2019.html
-
----
-
-# Machine Learning Pipeline
-
-## 1. Data Preprocessing
-
-Steps performed:
-
-- Handling missing values
-- Removing duplicate records
-- Cleaning invalid feature values
-
----
-
-## 2. Train-Test Split
-
-The dataset is split into:
-
-- **70% Training Data**
-- **30% Testing Data**
-
----
-
-## 3. Feature Scaling
-
-All features are normalized using **StandardScaler**.
+**Principal Component Analysis (PCA)** was used for dimensionality reduction.
 
 Benefits:
 
-- Prevents bias caused by large feature values
-- Improves model convergence
-- Required for PCA and distance-based models
-
----
-
-## 4. Handling Class Imbalance
-
-Cybersecurity datasets are often **highly imbalanced**.
-
-To solve this problem, **SMOTE (Synthetic Minority Oversampling Technique)** is used to generate synthetic samples for the minority class.
-
----
-
-## 5. Dimensionality Reduction
-
-**Principal Component Analysis (PCA)** is used to reduce feature dimensionality.
-
-PCA retains **95% of the dataset variance**, helping reduce noise and computational cost.
+- Reduces feature redundancy
+- Improves model efficiency
+- Reduces noise
+- Retains maximum variance
 
 ---
 
 # Machine Learning Models
 
-The following machine learning algorithms are trained and evaluated:
+The following supervised machine learning algorithms were implemented:
 
-| Model | Description |
-|------|-------------|
-| Decision Tree | Tree-based classification model |
-| Random Forest | Ensemble learning method |
-| Support Vector Machine | Maximum margin classifier |
-| K-Nearest Neighbors | Distance-based classification |
-| Logistic Regression | Linear classification model |
+| Algorithm | Description |
+|----------|-------------|
+| Random Forest | Ensemble learning method using multiple decision trees |
+| Logistic Regression | Probabilistic classification model |
+| K-Nearest Neighbors (KNN) | Distance-based classification |
+| Support Vector Machine (SVM) | Maximum margin classifier |
+| Decision Tree | Tree-based interpretable model |
 
 ---
 
 # Evaluation Metrics
 
-Model performance is evaluated using:
+Model performance was evaluated using:
 
 | Metric | Description |
 |------|-------------|
@@ -204,27 +176,77 @@ Model performance is evaluated using:
 | Recall | Ability to detect attacks |
 | F1 Score | Balance between precision and recall |
 
+These metrics were calculated using the **confusion matrix**.
+
 ---
 
-# Explainable AI
+# Experimental Results
 
-To interpret model decisions, **SHAP (SHapley Additive Explanations)** is used.
+## CICIDS2017 Dataset
 
-SHAP helps to:
+| Model | Accuracy |
+|------|---------|
+| Random Forest | 0.999397 |
+| Logistic Regression | 0.994237 |
+| KNN | **0.999464** |
+| SVM | 0.990954 |
+| Decision Tree | 0.999129 |
 
-- Understand feature importance
-- Explain predictions
-- Improve transparency in ML models
+**Best Model:** KNN
+
+---
+
+## CICIDS2018 Dataset
+
+| Model | Accuracy |
+|------|---------|
+| Random Forest | 0.999791 |
+| Logistic Regression | 0.995048 |
+| KNN | **0.999930** |
+| SVM | 0.998187 |
+| Decision Tree | 0.999582 |
+
+**Best Model:** KNN
+
+---
+
+## CICDDoS2019 Dataset
+
+| Model | Accuracy |
+|------|---------|
+| Random Forest | **0.984733** |
+| Logistic Regression | 0.973533 |
+| KNN | 0.972600 |
+| SVM | 0.969533 |
+| Decision Tree | 0.979800 |
+
+**Best Model:** Random Forest
+
+---
+
+# Model Explainability
+
+To improve interpretability, two techniques were used:
+
+### Decision Tree Feature Importance
+
+Identifies the most influential network traffic features used in classification.
+
+### SHAP (SHapley Additive Explanations)
+
+SHAP explains model predictions by measuring the contribution of each feature to the final output.
+
+This helps understand **why a network flow is classified as malicious or benign**.
 
 ---
 
 # Technologies Used
 
-## Programming Language
+### Programming Language
 
 - Python
 
-## Libraries
+### Libraries
 
 - NumPy
 - Pandas
@@ -238,26 +260,26 @@ SHAP helps to:
 
 # Installation
 
-Clone the repository:
+Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/ddos-detection-pca.git
-cd ddos-detection-pca
+git clone https://github.com/RishiRaajhaA/DDoS-Attack-Detection-ML.git
+cd DDoS-Attack-Detection-ML
 ```
 
-Install dependencies:
+Install dependencies
 
 ```bash
 pip install numpy pandas scikit-learn imbalanced-learn matplotlib seaborn shap
 ```
 
-Run Jupyter Notebook:
+Run Jupyter Notebook
 
 ```bash
 jupyter notebook
 ```
 
-Open the notebooks:
+Open the notebooks
 
 ```
 ddos_pca_edad2017.ipynb
@@ -267,38 +289,38 @@ ddos_pca_edad2019.ipynb
 
 ---
 
-# Results
-
-The models successfully detect **DDoS attacks using PCA-reduced feature space**.
-
-Key observations:
-
-- PCA significantly reduces feature dimensionality
-- Tree-based models perform strongly on network traffic data
-- SMOTE improves recall for minority attack classes
-
----
-
 # Future Improvements
 
-Possible improvements include:
+Future research directions include:
 
-- Deep learning models (CNN, LSTM)
-- Real-time network traffic monitoring
-- Feature engineering optimization
-- Deployment using Flask or FastAPI
-- Integration with SIEM tools
+- Deep learning models such as **CNN, LSTM, and RNN**
+- Real-time DDoS detection systems
+- Integration with **network monitoring tools**
+- Deployment using **Flask or FastAPI**
+- Real-time IDS for cloud environments
 
 ---
 
-# Author
+# Authors
 
-**Rishi Raajha A**
+- **Rishi Raajha A**
+- Naveen Sankar R S
+- Sakthi Pranav S
+- Harshvardhan V
 
-Cybersecurity & AI Research Enthusiast
+Department of Artificial Intelligence  
+Amrita Vishwa Vidyapeetham, Coimbatore
+
+---
+
+# Academic Information
+
+Course: **Computer Security (22AIE314)**  
+Supervisor: **Dr. Vipin Das**  
+Amrita School of Artificial Intelligence
 
 ---
 
 # License
 
-This project is intended for **educational and research purposes**.
+This project is developed for **academic and research purposes**.
